@@ -1,0 +1,9 @@
+[submodule "src/dmotor_ros"]
+	path = src/dmotor_ros
+	url = git@github.com:nityc-d-robo/dmotor_ros.git
+[submodule "src/drobo_interfaces"]
+	path = src/drobo_interfaces
+	url = git@github.com:nityc-d-robo/drobo_interfaces.git
+[submodule "src/omni_control"]
+	path = src/omni_control
+	url = git@github.com:nityc-d-robo/omni_control.git
