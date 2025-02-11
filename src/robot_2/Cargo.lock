@@ -1522,3 +1522,7 @@ dependencies = [
  "quote",
  "syn",
 ]
+
+[[patch.unused]]
+name = "robot_2"
+version = "0.1.0"

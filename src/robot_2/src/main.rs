@@ -10,10 +10,12 @@ use safe_drive::{
 use motor_lib::{
     USBHandle,
     Error,
-    md
+    md,
+    GrpcHandle
 };
 
 use safe_drive::msg::common_interfaces::geometry_msgs::msg;
+use safe_drive::pr_info;
 use std::f64::consts::PI;
 use std::{cell::RefCell, rc::Rc};
 
@@ -39,11 +41,11 @@ const CHASSIS: Chassis = Chassis {
 
 // 定数の宣言
 const MAX_PAWER_INPUT: f64 = 160.;
-const MAX_PAWER_OUTPUT: f64 = 1.;
+const MAX_PAWER_OUTPUT: f64 = 999.;
 const MAX_REVOLUTION: f64 = 5400.;
 
 fn main() -> Result<(), DynError> {
-    let handle = USBHandle::new(0x483, 0x5740, 1);
+    let handle = GrpcHandle::new("http://127.0.0.1:50051");
 
     let _logger = Logger::new("robot_2");
 
@@ -54,9 +56,7 @@ fn main() -> Result<(), DynError> {
 
     selector.add_subscriber(subscriber, {
         Box::new(move |msg| {
-            // pr_info!(logger, "receive: {:?}", msg.linear);
             let topic_callback_data = topic_callback(msg);
-            // safe_drive::pr_info!(logger,"an:{},pa:{}",topic_callback_data[0],topic_callback_data[1]);
             move_chassis(
                 topic_callback_data[0],
                 topic_callback_data[1],
@@ -72,7 +72,6 @@ fn main() -> Result<(), DynError> {
 
 fn topic_callback(msg: subscriber::TakenMsg<Twist>) -> [f64; 3] {
     // for debug
-    let _logger = Logger::new("robot_2");
 
     let theta: f64 = msg.linear.y.atan2(-msg.linear.x);
     let pawer: f64 = (msg.linear.x.powf(2.) + msg.linear.y.powf(2.))
@@ -82,12 +81,11 @@ fn topic_callback(msg: subscriber::TakenMsg<Twist>) -> [f64; 3] {
     [theta, pawer, msg.angular.z]
 }
 
-fn move_chassis(_theta: f64, _pawer: f64, _revolution: f64, handle: &USBHandle) {
+fn move_chassis(_theta: f64, _pawer: f64, _revolution: f64, handle: &GrpcHandle) {
     // for debug
     let _logger = Logger::new("robot_2");
 
     let mut motor_power: [f64; 4] = [0.; 4];
-
     motor_power[CHASSIS.fr.id] = (_theta - (PI * 1. / 4.)).sin() * CHASSIS.fr.raito;
     motor_power[CHASSIS.fl.id] = (_theta + (PI * 5. / 4.)).sin() * CHASSIS.fl.raito;
     motor_power[CHASSIS.br.id] = (_theta + (PI * 1. / 4.)).sin() * CHASSIS.br.raito;
@@ -101,7 +99,7 @@ fn move_chassis(_theta: f64, _pawer: f64, _revolution: f64, handle: &USBHandle) 
         .iter()
         .fold(0.0 / 0.0, |m, v| v.max(m))
     };
-
+    pr_info!(_logger, "len : {}", motor_power.len());
     for i in 0..motor_power.len() {
         motor_power[i] = MAX_PAWER_OUTPUT * (_pawer / MAX_PAWER_INPUT) * motor_power[i]
             / standard_power
@@ -109,20 +107,12 @@ fn move_chassis(_theta: f64, _pawer: f64, _revolution: f64, handle: &USBHandle) 
 
         motor_power[i] = motor_power[i].max(-MAX_PAWER_OUTPUT);
         motor_power[i] = motor_power[i].min(MAX_PAWER_OUTPUT);
+        pr_info!(_logger, "power: {}, i: {}", motor_power[i], i);
 
-        let return_status = 
-        loop {
-            match md::send_pwm(handle, i as u8, motor_power[i] as i16){
-                Ok(t) => {
-                    break t;
-                },
-                Err(e) => {}
-            }
-        };
-        println!("{:?}", return_status);
+        md::send_pwm(handle, i as u8, motor_power[i] as i16).unwrap();
     }
 
-    safe_drive::pr_info!(
+    pr_info!(
         _logger,
         "fl : {} fr : {} br : {} bl : {} PA : {} ø : {}",
         motor_power[CHASSIS.fr.id],
