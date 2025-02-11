@@ -1,0 +1,11 @@
+[package]
+name = "robot_1"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+safe_drive = "0.4"
+motor_lib = { git = "https://github.com/nityc-d-robo/motor_lib",rev = "c453588ba2009a4afb51a06fdf4758863d1039c8" }
+
+[package.metadata.ros]
+safe_drive_version = "0.4"
