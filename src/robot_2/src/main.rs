@@ -99,7 +99,7 @@ fn move_chassis(_theta: f64, _pawer: f64, _revolution: f64, handle: &GrpcHandle)
         .iter()
         .fold(0.0 / 0.0, |m, v| v.max(m))
     };
-    pr_info!(_logger, "len : {}", motor_power.len());
+
     for i in 0..motor_power.len() {
         motor_power[i] = MAX_PAWER_OUTPUT * (_pawer / MAX_PAWER_INPUT) * motor_power[i]
             / standard_power
@@ -107,7 +107,6 @@ fn move_chassis(_theta: f64, _pawer: f64, _revolution: f64, handle: &GrpcHandle)
 
         motor_power[i] = motor_power[i].max(-MAX_PAWER_OUTPUT);
         motor_power[i] = motor_power[i].min(MAX_PAWER_OUTPUT);
-        pr_info!(_logger, "power: {}, i: {}", motor_power[i], i);
 
         md::send_pwm(handle, i as u8, motor_power[i] as i16).unwrap();
     }
