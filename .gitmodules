@@ -1,3 +1,0 @@
-[submodule "src/motor_lib"]
-	path = src/motor_lib
-	url = https://github.com/nityc-d-robo/motor_lib.git
