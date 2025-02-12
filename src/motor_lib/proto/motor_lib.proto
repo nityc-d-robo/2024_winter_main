@@ -1,0 +1,23 @@
+syntax = "proto3";
+package motor_lib;
+
+service UsbCan {
+    rpc Read (ReadRequest) returns (ReadResponse);
+    rpc Write (WriteRequest) returns (WriteResponse);
+}
+
+message ReadRequest {
+    int32 size = 1;
+}
+
+message ReadResponse {
+    bytes recv_buf = 1;
+}
+
+message WriteRequest {
+   bytes send_buf = 1;
+}
+
+message WriteResponse {
+    int32 size = 1;
+}

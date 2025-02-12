@@ -108,7 +108,7 @@ fn move_chassis(_theta: f64, _pawer: f64, _revolution: f64, handle: &GrpcHandle)
         motor_power[i] = motor_power[i].max(-MAX_PAWER_OUTPUT);
         motor_power[i] = motor_power[i].min(MAX_PAWER_OUTPUT);
 
-        md::send_pwm(handle, i as u8, motor_power[i] as i16).unwrap();
+        md::send_pwm(handle, i as u8, motor_power[i] as i16);
     }
 
     pr_info!(
