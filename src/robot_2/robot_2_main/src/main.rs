@@ -40,8 +40,8 @@ const CHASSIS: Chassis = Chassis {
 };
 
 // 定数の宣言
-const MAX_PAWER_INPUT: f64 = 160.;
-const MAX_PAWER_OUTPUT: f64 = 999.;
+const MAX_PAWER_INPUT: f64 = 280.;
+const MAX_PAWER_OUTPUT: f64 = 180.;
 const MAX_REVOLUTION: f64 = 5400.;
 
 fn main() -> Result<(), DynError> {
@@ -108,7 +108,8 @@ fn move_chassis(_theta: f64, _pawer: f64, _revolution: f64, handle: &GrpcHandle)
         motor_power[i] = motor_power[i].max(-MAX_PAWER_OUTPUT);
         motor_power[i] = motor_power[i].min(MAX_PAWER_OUTPUT);
 
-        md::send_pwm(handle, i as u8, motor_power[i] as i16);
+        // md::send_pwm(handle, i as u8, motor_power[i] as i16);
+        md::send_speed(handle, i as u8, motor_power[i] as i16);
     }
 
     pr_info!(
