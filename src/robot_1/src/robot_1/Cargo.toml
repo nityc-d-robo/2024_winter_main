@@ -1,0 +1,13 @@
+[package]
+name = "robot_1"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rust-pigpio = "0.2.0"
+serialport = "4.7.0"
+safe_drive = "0.4"
+log = "0.4"
+
+[package.metadata.ros]
+safe_drive_version = "0.4"
