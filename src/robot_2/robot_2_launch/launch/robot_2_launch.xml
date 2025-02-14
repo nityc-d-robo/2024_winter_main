@@ -11,9 +11,10 @@
             <param name="axis_linear.y" value="1"/>
             <param name="axis_angular.yaw" value="3"/>
 
-            <param name="scale_linear.x" value="160.0"/>
-            <param name="scale_linear.y" value="160.0"/>
-            <param name="scale_angular.yaw" value="5400.0"/>
+            <!-- MAX m/s scale-->
+            <param name="scale_linear.x" value="0.3"/>
+            <param name="scale_linear.y" value="0.3"/>
+            <param name="scale_angular.yaw" value="0.4"/>
 
             <param name="require_enable_button" value="false"/>
             <param name="enable_turbo_button" value="-1"/>

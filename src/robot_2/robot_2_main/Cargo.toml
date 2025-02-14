@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 safe_drive = "0.4"
 motor_lib = {path = "/home/drobo/workspace/2024_winter_main/src/motor_lib"}
+ndarray = "0.16.1"
 
 [package.metadata.ros]
 safe_drive_version = "0.4"

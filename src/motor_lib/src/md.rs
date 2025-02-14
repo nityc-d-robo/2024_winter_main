@@ -107,21 +107,17 @@ pub fn send_speed(
     address: u8,
     velocity: i16,
 ) {
-    if velocity == 0 {
-        send_pwm(handle, address, 0);
-    } else {
-        let send_buf: [u8; 8] = [
-            address,
-            device_type::MASTER,
-            mode::SPEED,
-            0,
-            ((velocity >> 8) & 0xff) as u8,
-            (velocity & 0xff) as u8,
-            0,
-            0,
-        ];
-        let _ = handle.write_bulk(&send_buf, Duration::from_millis(5000));
-    }
+    let send_buf: [u8; 8] = [
+        address,
+        device_type::MASTER,
+        mode::SPEED,
+        0,
+        ((velocity >> 8) & 0xff) as u8,
+        (velocity & 0xff) as u8,
+        0,
+        0,
+    ];
+    let _ = handle.write_bulk(&send_buf, Duration::from_millis(5000));
 }
 
 /// Sends a command to set the angle on the specified MD device.
