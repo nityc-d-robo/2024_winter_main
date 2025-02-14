@@ -1,0 +1,10 @@
+<?xml version='1.0' ?>
+
+<launch>
+    <!-- joy s -->
+        <node pkg="joy" exec="joy_node"/>
+    <!-- joy s -->
+
+    <!-- robots -->
+        <node pkg="robot_1" exec="robot_1"></node>
+</launch>
