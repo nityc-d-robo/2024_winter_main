@@ -1516,5 +1516,13 @@ dependencies = [
 ]
 
 [[patch.unused]]
+name = "robot_1"
+version = "0.1.0"
+
+[[patch.unused]]
 name = "robot_2"
+version = "0.1.0"
+
+[[patch.unused]]
+name = "robot_2_controller"
 version = "0.1.0"
