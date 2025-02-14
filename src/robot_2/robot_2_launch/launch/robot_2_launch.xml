@@ -2,7 +2,10 @@
 
 <launch>
     <!-- joy s -->
-        <node pkg="joy" exec="joy_node"/>
+        <node pkg="joy" exec="joy_node" name="joy_2">
+            <param name="device_id" value="1"/>  <!-- 一つ目のコントローラー -->
+            <remap from="/joy" to="/joy_2"/>
+        </node>
     <!-- joy s -->
 
     <!-- cmd_vel publisher -->
@@ -18,6 +21,9 @@
 
             <param name="require_enable_button" value="false"/>
             <param name="enable_turbo_button" value="-1"/>
+
+            <remap from="/joy" to="/joy_2"/>
+            <remap from="/cmd_vel" to="/cmd_vel2"/>
         </node>
     <!-- cmd_vel publisher -->
 
