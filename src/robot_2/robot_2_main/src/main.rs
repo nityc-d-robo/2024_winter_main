@@ -87,7 +87,7 @@ fn main() -> Result<(), DynError> {
     let handle = GrpcHandle::new("http://127.0.0.1:50051");
     let ctx = Context::new()?;
     let node = ctx.create_node("robot_2", None, Default::default())?;
-    let subscriber = node.create_subscriber::<msg::Twist>("cmd_vel", None)?;
+    let subscriber = node.create_subscriber::<msg::Twist>("cmd_vel2", None)?;
     let mut selector = ctx.create_selector()?;
 
     selector.add_subscriber(subscriber, {
