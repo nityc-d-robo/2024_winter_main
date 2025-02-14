@@ -59,7 +59,7 @@ fn main() -> Result<(), DynError> {
             }
             
             if p9n.pressed_dpad_down() {
-                md::send_pwm(&handle, 3, -800);
+                md::send_pwm(&handle, 3, 800);
                 pr_info!(_logger, "pressed: dpad_down");
             }
             else if p9n.pressed_dpad_left() {
@@ -71,6 +71,8 @@ fn main() -> Result<(), DynError> {
             else if p9n.pressed_dpad_up() {
                 md::send_pwm(&handle, 3, -800);
                 pr_info!(_logger, "pressed: dpad_up");
+            } else {
+                md::send_pwm(&handle, 3, 0);
             }
         })
     });
