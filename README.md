@@ -14,6 +14,7 @@ robot_1 コントローラー側
 - ros2 joy joy_joynode
 
 robot_1 本体側
+- apt install libasound2-dev libudev-dev　pkg-config
 - ros2 robot_1 robot_1
 
 robot_2 コントローラー側
